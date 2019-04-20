@@ -1,0 +1,19 @@
+{
+  "name": "lrcv2toass-fn",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "kotlin": "^1.3.30",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.6.10",
+    "vue-material": "^1.0.0-beta-10.2"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^3.6.0",
+    "vue-template-compiler": "^2.5.21"
+  }
+}

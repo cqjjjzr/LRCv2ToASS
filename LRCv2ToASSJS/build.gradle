@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'kotlin2js' version '1.2.51'
+}
+
+group 'ac.cn.origind'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js"
+    testCompile "org.jetbrains.kotlin:kotlin-test-js"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task assembleWeb(type: Sync) {
+    configurations.compile.each { File file ->
+        from(zipTree(file.absolutePath), {
+            includeEmptyDirs = false
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") ||
+                        !path.startsWith("META-INF/"))
+            }
+        })
+    }
+    from compileKotlin2Js.destinationDir
+    into "${projectDir}/web"
+
+    dependsOn classes
+}
+
+assemble.dependsOn assembleWeb
+
+compileKotlin2Js {
+    //kotlinOptions.outputFile = "${projectDir}/web/output.js"
+    kotlinOptions.moduleKind = "commonjs"
+    kotlinOptions.sourceMap = true
+}
